@@ -5,10 +5,9 @@ Architecture dependency: owner-approved PHP/MySQL, same-origin, incremental
 direction in roadmap #1. No ADRs or repository AGENTS.md/SKILL.md existed at baseline.
 No existing PRs were returned by the repository PR search before implementation.
 
-## Results in the implementation environment
+## Initial static checks
 
-- Docker CLI/Desktop: not installed/on PATH; standard installation directory absent.
-- WSL: listing distributions denied by the host (`WSL/E_ACCESSDENIED`).
+- Docker was initially unavailable; the owner subsequently installed Docker Desktop.
 - Host PHP: initially absent. Downloaded a temporary official PHP 8.2.35 Windows
   CLI and verified its SHA-256 against official release metadata.
 - PHP syntax: **passed**, all 23 PHP files, including the new smoke script.
@@ -24,43 +23,97 @@ No existing PRs were returned by the repository PR search before implementation.
 - Missing-driver database failure: **passed**, nonzero CLI exit with a generic
   diagnostic and no password disclosure. This does not prove MySQL connectivity.
 - `.env` and upload ignore rules; final diff whitespace check: **passed**.
-- Container build/start, authenticated DB readiness, actual schema execution,
-  email delivery/capture, photo writes and recreation/persistence: **not run**.
-- Fresh-checkout execution of the documented Docker commands: **not run**.
-- Browser/device parity journeys: **not run**.
 
-The temporary Compose executable validates configuration only; no Docker Engine
-is available. The smoke script is provided for a Docker-capable reviewer. Its existence is
-not runtime acceptance evidence. Record command results here before treating
-runtime-dependent acceptance criteria as verified.
+## Docker and browser validation after installation
 
-## Pre-existing failures identified by source inspection
+Docker Desktop 4.98.0, Engine 29.9.2, Compose v5.6.1, Linux/amd64 backend.
+Validated application commit `78a5d4e` from a fresh `git archive HEAD` source
+snapshot in a temporary directory. Copied `.env.example` and generated distinct
+random local passwords without printing them. Project `camagru-issue2-check`
+used newly created, separate database/photo volumes, with no existing user data.
+The final follow-up changes only documentation.
 
-These are observations from the original code, not reproduced runtime results:
+Executed the README sequence with `-p camagru-issue2-check` added:
 
-| Area | Observation | Follow-up scope |
+```sh
+docker compose up --build -d --wait
+docker compose exec web apache2ctl -t
+docker compose exec web sh -c "find . -name '*.php' -print0 | xargs -0 -n1 php -l"
+docker compose exec --user www-data web test -w /var/www/html/uploads
+docker compose exec web php tests/smoke.php
+# Browser parity checks against localhost, then repeat smoke with populated tables.
+docker compose exec web php tests/smoke.php
+docker compose up -d --force-recreate --wait
+docker compose exec web php tests/smoke.php --verify-persistence
+docker compose down
+docker compose up -d --wait
+docker compose exec web php tests/smoke.php --verify-persistence
+```
+
+Build and initial startup **passed**. All three services became healthy. The
+container's Apache configuration and all 23 PHP files passed syntax checks.
+The README lint command originally lost its glob quoting in Windows PowerShell;
+the corrected quoting shown above was executed successfully.
+
+The smoke script **passed** on new and populated volumes: actual GD PNG/JPEG and
+PDO MySQL, schema initialization twice with unchanged counts in all four tables,
+gallery, captcha rendering, registration, captured activation/recovery links,
+activation state, active login, camera page, synthetic PNG upload with Batman
+overlay, saved-photo HTTP response and database record. Apache's user can write
+to the photo directory. Both persistence checks **passed**, preserving the
+database record, photo volume marker and exact saved-photo SHA-256 after forced
+container recreation and after `down`/`up` without deleting volumes.
+
+Additional host HTTP checks **passed** for the app and blocked `.env`, config,
+Docker configuration, test scripts and private smoke-marker paths. A synthetic
+`cle` query probe was absent from captured web logs, confirming access-log query
+redaction.
+
+Headless installed Chrome, driven by temporary Playwright tooling outside the
+repository, used only synthetic accounts/images and a simulated camera. Browser
+registration/activation/login, native camera capture with all three overlays,
+local PNG input with all three overlays, same-origin upload requests, profile
+display/settings, likes/comments with notification capture, owner photo deletion
+(file returns 404), logout redirect, recovery password change followed by login
+with the new password, and Mailpit's browser UI all **passed**. No changes to app
+event handlers were made for these checks. The file-input switch required keyboard
+activation because the existing footer intercepted mouse clicks at the default
+1280x720 viewport.
+
+Physical webcam/device coverage and exhaustive parity/accessibility testing remain
+outstanding. Successful synthetic-camera checks do not resolve the existing
+form/XHR race or establish authorization/security correctness. The destructive
+reset command was deliberately not needed or executed.
+Validation containers were stopped and removed afterward with `docker compose
+down`; the isolated synthetic database/photo volumes were retained.
+
+## Pre-existing observations and limitations
+
+The table distinguishes runtime findings from observations in the original source:
+
+| Area | Observation/evidence | Follow-up scope |
 | --- | --- | --- |
-| Camera | Buttons submit the form while an XHR also posts; navigation may cancel upload | #10 |
-| Image input | Overlay path uses PNG decoding even for direct JPEG payloads; validation and limits are incomplete | #6 |
-| Sessions/ownership | Redirects do not consistently terminate execution; deletion ownership is not enforced | #3, #5 |
-| Activation/recovery | Activation and recovery share a reusable key; reset POST redirects when query parameters are absent | #4 |
-| Invalid login | Missing user rows are indexed before password verification; may emit warnings or fail on newer PHP | Later identity work; characterize on chosen runtime |
-| Data | No relational/uniqueness constraints beyond primary keys; initialization does not retrofit them | #7 |
+| Camera layout | Reproduced: fixed footer intercepts mouse clicks on file-input toggle at 1280x720; keyboard activation works | #14 |
+| Sessions | Reproduced: login/registration emit `PHP Request Shutdown: Skipping numeric key` warnings; source assigns PDO's default numeric/associative row directly to the session | Later identity work |
+| Camera requests | Source: buttons submit the form while an XHR also posts; potential cancellation race. Not reproduced in successful Chrome checks | #10 |
+| Image input | Source: overlay path uses PNG decoding even for direct JPEG payloads; validation and limits are incomplete | #6 |
+| Sessions/ownership | Source: redirects do not consistently terminate execution; deletion ownership is not enforced | #3, #5 |
+| Activation/recovery | Source: activation and recovery share a reusable key. Actual synthetic recovery/password change passed | #4 |
+| Invalid login | Source: missing user rows are indexed before password verification; invalid-account behavior not exercised | Later identity work |
+| Data | Source: no relational/uniqueness constraints beyond primary keys; initialization does not retrofit them | #7 |
 
-## Review evidence to collect
+## Acceptance evidence summary
 
-Use README commands on new disposable volumes, then record:
-
-| Check | Current status |
+| Check | Result |
 | --- | --- |
-| Build and localhost app/Mailpit access | Pending Docker |
-| GD PNG/JPEG and PDO MySQL | Pending Docker |
-| Initialization twice, including existing records | Pending Docker |
-| Gallery, registration, activation mail/link | Pending Docker |
-| Recovery mail/link; password change behavior | Pending Docker/browser |
-| Camera PNG upload/overlay and saved-photo GET | Pending Docker |
-| Real browser capture, file input, all overlays | Pending browser |
-| Likes/comments, notification mail, profile, deletion, logout | Pending browser |
-| DB record and photo bytes after container recreation | Pending Docker |
+| Build and localhost app/Mailpit access | Passed from fresh source and new volumes |
+| GD PNG/JPEG and PDO MySQL | Passed in container |
+| Initialization twice, including existing records | Passed on new and populated volumes |
+| Gallery, registration, activation mail/link | Passed HTTP and browser |
+| Recovery mail/link; password change/new login | Passed HTTP and browser |
+| Camera PNG upload/overlay and saved-photo GET | Passed |
+| Browser camera, file input, all overlays | Passed with simulated camera and keyboard toggle; physical devices untested |
+| Likes/comments, notification mail, profile, deletion, logout | Passed synthetic browser checks; not a security assessment |
+| DB record and photo bytes after recreation and down/up | Passed |
 
 Do not publish real account data, credentials, tokens or private media as evidence.

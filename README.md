@@ -94,7 +94,7 @@ Run from a disposable clean checkout with newly created development volumes:
 ```sh
 docker compose up --build -d --wait
 docker compose exec web php -m
-docker compose exec web sh -c 'find . -name "*.php" -print0 | xargs -0 -n1 php -l'
+docker compose exec web sh -c "find . -name '*.php' -print0 | xargs -0 -n1 php -l"
 docker compose exec web php tests/smoke.php
 docker compose up -d --force-recreate --wait
 docker compose exec web php tests/smoke.php --verify-persistence
