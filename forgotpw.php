@@ -1,6 +1,7 @@
 <?php
 require('includes/mylibrary.php');
 require('config/connection.inc.php');
+require('config/application.php');
 $app = new User();
 $register_error_user = "";
 $message_send = "";
@@ -20,7 +21,7 @@ else {
 Pour changer votre password, veuillez cliquer sur le lien ci dessous
 ou copier/coller dans votre navigateur internet.
  
-http://localhost:8001/mdichkou/resetpw.php?log='.urlencode($_POST['username']).'&cle='.urlencode($row['cle']).'
+'.$APP_URL.'/resetpw.php?log='.urlencode($_POST['username']).'&cle='.urlencode($row['cle']).'
  
  
 ---------------

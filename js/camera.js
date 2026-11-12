@@ -59,7 +59,7 @@ function postpicture () {
   let picture = canvasElement.toDataURL();
   var http = new XMLHttpRequest();
   var params = 'data='+encodeURI(picture)+'&option='+encodeURI(effects.value);
-  http.open('POST', "http://localhost:8001/mdichkou/api/save_image.php", true);
+  http.open('POST', "api/save_image.php", true);
   http.withCredentials = true;
   http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   http.onreadystatechange = function() {

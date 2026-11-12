@@ -6,6 +6,7 @@ if(!empty($_SESSION['id']))
 }
 require('includes/mylibrary.php');
 require('config/connection.inc.php');
+require('config/application.php');
 $app = new User();
 $register_error_message = '';
 if (isset($_POST['btnsignup'])) { 
@@ -37,7 +38,7 @@ if (isset($_POST['btnsignup'])) {
             Pour activer votre compte, veuillez cliquer sur le lien ci dessous
             ou copier/coller dans votre navigateur internet.
              
-            http://localhost:8001/mdichkou/activation.php?log='.urlencode($_POST['username']).'&cle='.urlencode($verificationCode).'
+            '.$APP_URL.'/activation.php?log='.urlencode($_POST['username']).'&cle='.urlencode($verificationCode).'
              
              
             ---------------

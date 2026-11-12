@@ -112,7 +112,7 @@ class User {
         $req->execute([$imageid]);
         $res = $req->fetch();
         if (!empty($res['img_name']))
-            unlink(".." . $res['img_name']);
+            unlink(dirname(__DIR__) . $res['img_name']);
         $pdo->prepare("DELETE FROM likes WHERE  picture_id = ?")->execute([$imageid]);
         $pdo->prepare("DELETE FROM comment WHERE  imageid = ?")->execute([$imageid]);
         $pdo->prepare("DELETE FROM images WHERE `imageid` = ?")->execute([$imageid]);
