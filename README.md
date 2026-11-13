@@ -1,5 +1,8 @@
 # Camagru
 
+Repository AI-assisted engineering uses the [approved workflows and skill catalog](docs/ai-engineering/README.md).
+See the linked evaluations for executed evidence and pending human review.
+
 Legacy PHP/MySQL photo capture and upload application with three overlays, a
 public gallery, likes/comments and account/profile pages. This is the private
 local baseline for the [approved incremental roadmap](https://github.com/mdichkou/Camagru/issues/1)

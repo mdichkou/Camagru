@@ -1,0 +1,13 @@
+<?php
+// Frozen synthetic policy sketch, never served or executed as an application.
+function deletePhoto($db, $photoId, $actorId) {
+    $db->prepare('DELETE FROM images WHERE imageid = ?')
+        ->execute([$photoId]);
+}
+function consumeReset($db, $digest, $now) {
+    return $db->prepare('UPDATE tokens SET consumed = 1 WHERE digest = ?')
+        ->execute([$digest]);
+}
+function acceptUpload($bytes, $declaredType) {
+    return $declaredType === 'image/png';
+}
