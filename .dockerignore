@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+!.env.example
+images
+uploads
+docs
+README.md
+*.log

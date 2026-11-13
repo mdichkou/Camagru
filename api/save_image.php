@@ -3,8 +3,8 @@ session_start();
 if (empty($_POST) || empty($_SESSION))
     header("Location: ../index.php");
 $id = $_SESSION['id'];
-$folder = "/mdichkou/images/";
-$destinationFolder = $_SERVER['DOCUMENT_ROOT'] . $folder;
+$folder = "/uploads/";
+$destinationFolder = dirname(__DIR__) . $folder;
 list($type, $data) = explode(';', $_POST['data']);
 list(, $data)      = explode(',', $data);
 $postdata = $_POST['data'];

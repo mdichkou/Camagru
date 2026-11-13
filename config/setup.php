@@ -1,5 +1,9 @@
 <?php
-require('connection.inc.php');
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    exit;
+}
+require(__DIR__ . '/connection.inc.php');
 $usereq = ("CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -37,6 +41,6 @@ $usereq = ("CREATE TABLE IF NOT EXISTS `users` (
    
    if ($pdo->query($usereq) && $pdo->query($picturereq) && $pdo->query($commentreq) && $pdo->query($likereq))
    {
-    header("Location: ../index.php");
+    echo "Schema ready (existing tables and data preserved).\n";
    }
 ?>
