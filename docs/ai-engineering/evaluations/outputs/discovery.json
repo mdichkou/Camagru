@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-13",
+  "tool": "codex-cli 0.167.0-alpha.4.1",
+  "method": "skills/list",
+  "forceReload": true,
+  "normalized_response": [
+    {
+      "cwd": "C:/Users/lenovo/Camagru",
+      "skills": [
+        {
+          "name": "assess-architecture",
+          "path": "C:\\Users\\lenovo\\Camagru\\.agents\\skills\\assess-architecture\\SKILL.md",
+          "scope": "repo",
+          "enabled": true
+        },
+        {
+          "name": "implement-reviewed-slice",
+          "path": "C:\\Users\\lenovo\\Camagru\\.agents\\skills\\implement-reviewed-slice\\SKILL.md",
+          "scope": "repo",
+          "enabled": true
+        },
+        {
+          "name": "review-engineering-change",
+          "path": "C:\\Users\\lenovo\\Camagru\\.agents\\skills\\review-engineering-change\\SKILL.md",
+          "scope": "repo",
+          "enabled": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "cwd": "C:/Users/lenovo/Camagru/api",
+      "skills": [
+        {
+          "name": "assess-architecture",
+          "path": "C:\\Users\\lenovo\\Camagru\\.agents\\skills\\assess-architecture\\SKILL.md",
+          "scope": "repo",
+          "enabled": true
+        },
+        {
+          "name": "implement-reviewed-slice",
+          "path": "C:\\Users\\lenovo\\Camagru\\.agents\\skills\\implement-reviewed-slice\\SKILL.md",
+          "scope": "repo",
+          "enabled": true
+        },
+        {
+          "name": "review-engineering-change",
+          "path": "C:\\Users\\lenovo\\Camagru\\.agents\\skills\\review-engineering-change\\SKILL.md",
+          "scope": "repo",
+          "enabled": true
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "source_ref": "236d4dd18ef5648a2af9c6fa952ee706e30a256d",
+  "sha256": {
+    ".agents/skills/assess-architecture/references/adr.md": "9c3013e0f4ce2ff55a436f5cb1e2af75f88ecfec2aed7d96d948ad0afc7edb95",
+    ".agents/skills/assess-architecture/SKILL.md": "71336df51780689b0d249f7a6604a8f264fc0863610705f11719c6759a38a711",
+    ".agents/skills/implement-reviewed-slice/references/handoff.md": "3261b725a829fbf3826d12727d89195ddf8ba47508b265ee35498f4ab7cf15e5",
+    ".agents/skills/implement-reviewed-slice/SKILL.md": "1dcc0d3e2fb593e1198befa900cadec85392598f247f60f4b1a5bc57a9a2bba2",
+    ".agents/skills/review-engineering-change/references/review.md": "5a2df0c611ec307fb15adcaa3e5c47e67f39c6d06429516e77281b61a7bf130a",
+    ".agents/skills/review-engineering-change/SKILL.md": "eb27f0108c1ffe4e361b8a8d34f14c50bf431c6d586f1ffc479ee2206ff10ad2",
+    "AGENTS.md": "6b2fdb78e9d7c815ef95ea3cfcc28e5d7aca52cb77ece99cfd85c8c867c63f83",
+    "docs/ai-engineering/evaluations/fixtures/base.php.txt": "694a2146f0c41884fec7c7eac3c7784688a630fa5918204c940426488a62aac7",
+    "docs/ai-engineering/evaluations/fixtures/harmless-base.md": "4d88ad68aa9e53328694ada80b818d4aa00f02db9968d407f04941e1a5e3aae4",
+    "docs/ai-engineering/evaluations/fixtures/harmless-head.md": "622e21247eb173b151a6e25d1c1c3d7ce4c882b8cb8880bc8aee030b5fab77a7",
+    "docs/ai-engineering/evaluations/fixtures/head.php.txt": "9a61716276248dcd675636a8cb7fab1543cf823a58090dd89c5f62fb93215fc3",
+    "docs/ai-engineering/evaluations/rubric.md": "b02a4bf7bc87b3c37d872757b953d0195e4101f5a8e2cd6a06e8923d50fc253f",
+    "docs/ai-engineering/evaluations/task.md": "cb91ec061eb7e1cd8c674a6115493ccbcf60bd965d404ef929c087919a9e662e",
+    "docs/ai-engineering/evaluations/triggers.md": "8b1b68ee587071d80a95ffba732b7de130f52a48faaad23a1cf962566637fae7"
+  }
+}

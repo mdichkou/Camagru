@@ -1,0 +1,17 @@
+{
+  "status": "pending",
+  "reviewer": null,
+  "review_date": null,
+  "review_minutes": null,
+  "rework_minutes": null,
+  "baseline_dimension_scores_0_to_2": null,
+  "treatment_dimension_scores_0_to_2": null,
+  "architecture_dimension_scores_0_to_2": null,
+  "real_trial_dimension_scores_0_to_2": null,
+  "confirmed_missed_defects": null,
+  "confirmed_false_positives": null,
+  "confirmed_unsupported_assertions": null,
+  "human_corrections": [],
+  "acceptance_decision": null,
+  "note": "Only the human reviewer may supply these observations; agent assessments are recorded separately in results.md."
+}
